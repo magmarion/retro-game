@@ -1,30 +1,30 @@
 // Main Game Class
 class Game {
-     private activeScreen: Screen;
+     private activeScreen: GameScreen;
      private startButton: Button;
 
      constructor() {
       this.startButton = new Button(
         "Start Game",
         createVector(width / 2, height / 2),
-        createVector(200, 50),
         "blue",
+        createVector(200, 50),
         "white"
       );
 
-       this.activeScreen = new StartMenu(this.StartButton);
+       this.activeScreen = new StartMenu(this.startButton);
      }
 
     public changeScreen(screen: string): void { // Logic to change the screen
       if (screen === "menu") {
         this.activeScreen = new StartMenu(this.startButton);
       } else if (screen === "game") {
-        this.activeScreen = new GamePlay(); // Växlar till spelet
+        this.activeScreen = new GameBoard(); // Växlar till spelet
       }
     }
 
     public newGame(): void { // Logic to start a new game
-      this.isGameOver = false;
+      // this.isGameOver = false;
     this.changeScreen("menu"); // Tillbaka till menyn
     }
 
@@ -103,13 +103,13 @@ class GameBoard {
 // }
 
 // Screen Base Class
-abstract class Screen {
+abstract class GameScreen {
   abstract update(): void;
   abstract draw(): void;
 }
 
 // Start Menu
-class StartMenu extends Screen {
+class StartMenu extends GameScreen {
   startGameButton: Button;
 
   constructor(button: Button) {
@@ -238,7 +238,7 @@ abstract class Entity implements IMovable {
 }
 
 // Specific Entities
-class Heart extends Entity {
+// class Heart extends Entity {
   //   constructor(
   //     position: p5.Vector,
   //     size: p5.Vector,
@@ -256,7 +256,6 @@ class Heart extends Entity {
   //   move(): void {
   //     // Move heart entity
   //   }
-}
 
 // class Star extends Entity {
 //   constructor(
