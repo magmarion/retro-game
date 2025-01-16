@@ -1,3 +1,9 @@
+// Screen Base Class
+abstract class GameScreen {
+  abstract update(): void;
+  abstract draw(): void;
+}
+
 // Main Game Class
 class Game {
      private activeScreen: GameScreen;
@@ -15,13 +21,13 @@ class Game {
        this.activeScreen = new StartMenu(this.startButton);
      }
 
-    public changeScreen(screen: string): void { // Logic to change the screen
+     public changeScreen(screen: string): void {
       if (screen === "menu") {
         this.activeScreen = new StartMenu(this.startButton);
       } else if (screen === "game") {
-        this.activeScreen = new GameBoard(); // Växlar till spelet
+        this.activeScreen = new GameBoard(createVector(800, 600)); // Skicka storlek som argument
       }
-    }
+    }    
 
     public newGame(): void { // Logic to start a new game
       // this.isGameOver = false;
@@ -56,17 +62,14 @@ class Game {
 
 
 // Game Board
-class GameBoard {
+class GameBoard extends GameScreen {
   size: p5.Vector;
   entities: Entity[];
-  //collision: CollisionManager;
-  //score: ScoreManager[];
 
   constructor(size: p5.Vector) {
+    super(); // Anropa basklassens konstruktor
     this.size = size;
     this.entities = [];
-    //this.collision = new CollisionManager();
-    //this.score = [];
   }
 
   addEntity(entity: Entity): void {
@@ -77,7 +80,14 @@ class GameBoard {
     this.entities = this.entities.filter((e) => e !== entity);
   }
 
+  update(): void {
+    // Lägg till logik för att uppdatera spelet här
+    console.log("Updating GameBoard");
+  }
+
   draw(): void {
+    background("white"); // Ange bakgrundsfärg
+    console.log("Drawing GameBoard");
     for (const entity of this.entities) {
       entity.draw();
     }
@@ -102,11 +112,7 @@ class GameBoard {
 //   }
 // }
 
-// Screen Base Class
-abstract class GameScreen {
-  abstract update(): void;
-  abstract draw(): void;
-}
+
 
 // Start Menu
 class StartMenu extends GameScreen {
