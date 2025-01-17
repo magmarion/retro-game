@@ -1,42 +1,37 @@
 // Screen Base Class
 abstract class GameScreen {
+  constructor() {
+}
   abstract update(): void;
   abstract draw(): void;
 }
 
 // Main Game Class
 class Game {
-     private activeScreen: GameScreen;
-     private startButton: Button;
+  private activeScreen: GameScreen[]; 
+  private startButton: Button;
 
-     constructor() {
-      this.startButton = new Button(
-        "Start Game",
-        createVector(width / 2, height / 2),
-        "blue",
-        createVector(200, 50),
-        "white"
-      );
+  constructor() {
+    this.startButton = new Button(
+      "Start Game",
+      createVector(width / 2, height / 2),
+      "blue",
+      createVector(200, 50),
+      "white"
+    );
 
-       this.activeScreen = new StartMenu(this.startButton);
-     }
+    this.activeScreen = [new StartMenu(this.startButton)];
+  }
 
-     public changeScreen(screen: string): void {
-      if (screen === "menu") {
-        this.activeScreen = new StartMenu(this.startButton);
-      } else if (screen === "game") {
-        this.activeScreen = new GameBoard(createVector(800, 600)); // Skicka storlek som argument
-      }
-    }    
+  public changeScreen(screen: GameScreen): void {
+    this.activeScreen = [screen]; 
+  }
 
-    public newGame(): void { // Logic to start a new game
-      // this.isGameOver = false;
-    this.changeScreen("menu"); // Tillbaka till menyn
+  public draw(): void {
+    for (const screen of this.activeScreen) {
+      screen.update();
+      screen.draw();
     }
-
-   public draw(): void {
-    this.activeScreen.update();
-    this.activeScreen.draw();
   }
 }
 
@@ -117,15 +112,57 @@ class GameBoard extends GameScreen {
 // Start Menu
 class StartMenu extends GameScreen {
   startGameButton: Button;
+  selectEasyMode: Button;
+  selectMediumMode: Button;
+  selectHardMode: Button;
+  levelFactory: LevelFactory;
 
   constructor(button: Button) {
     super();
     this.startGameButton = button;
+
+    this.selectEasyMode = new Button(
+      "Easy",
+      createVector(width / 2, height / 2 - 100),
+      "green",
+      createVector(200, 50),
+      "white"
+    );
+
+    this.selectMediumMode = new Button(
+      "Medium",
+      createVector(width / 2, height / 2),
+      "yellow",
+      createVector(200, 50),
+      "black"
+    );
+
+    this.selectHardMode = new Button(
+      "Hard",
+      createVector(width / 2, height / 2 + 100),
+      "red",
+      createVector(200, 50),
+      "white"
+    );
+
+    this.levelFactory = new LevelFactory();
   }
 
   update(): void {
     if (this.startGameButton.isClicked()) {
-      game.changeScreen("game"); // Växlar till spelet
+      game.changeScreen(new GameBoard(createVector(800, 600))); 
+    }
+
+    if (this.selectEasyMode.isClicked()) {
+      console.log("Easy mode selected");
+    }
+
+    if (this.selectMediumMode.isClicked()) {
+      console.log("Medium mode selected");
+    }
+
+    if (this.selectHardMode.isClicked()) {
+      console.log("Hard mode selected");
     }
   }
 
@@ -134,8 +171,17 @@ class StartMenu extends GameScreen {
     fill("green");
     textAlign(CENTER, CENTER);
     textSize(32);
-    text("START GAME", width / 2, height / 3);
+    text("SELECT DIFFICULTY", width / 2, height / 4);
+
     this.startGameButton.draw();
+    this.selectEasyMode.draw();
+    this.selectMediumMode.draw();
+    this.selectHardMode.draw();
+  }
+
+  newGame(): void {
+    console.log("Starting a new game...");
+    game.changeScreen(new StartMenu(this.startGameButton)); 
   }
 }
 
@@ -355,35 +401,35 @@ abstract class Entity implements IMovable {
 //   }
 // }
 
-// // Button Class
+// Button Class
 class Button {
   text: string;
   position: p5.Vector;
   backgroundColor: string;
   size: p5.Vector;
-  textColor: string;
+  color: string; 
 
   constructor(
     text: string,
     position: p5.Vector,
     backgroundColor: string,
     size: p5.Vector,
-    textColor: string
+    color: string
   ) {
     this.text = text;
     this.position = position;
     this.backgroundColor = backgroundColor;
     this.size = size;
-    this.textColor = textColor;
+    this.color = color; 
   }
 
   draw(): void {
-    fill(this.backgroundColor);
-    rectMode(CENTER);
-    rect(this.position.x, this.position.y, this.size.x, this.size.y);
-    fill(this.textColor);
-    textAlign(CENTER, CENTER);
-    text(this.text, this.position.x, this.position.y);
+    fill(this.backgroundColor); 
+    rectMode(CENTER); 
+    rect(this.position.x, this.position.y, this.size.x, this.size.y); 
+    fill(this.color); 
+    textAlign(CENTER, CENTER); 
+    text(this.text, this.position.x, this.position.y); 
   }
 
   isClicked(): boolean {
