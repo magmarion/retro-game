@@ -1,5 +1,44 @@
 // Main Game Class
 class Game {
+  private gameObjects: GameObject[] = [];
+  private snakeSpawnTimer: number;;
+
+  constructor() {
+    this.gameObjects = [new Player()];
+    this.snakeSpawnTimer = 0;
+  }
+
+  public update() {
+    for (const gameObject of this.gameObjects) {
+      gameObject.update();
+    }
+
+    this.spawnSnake();
+  }
+
+  private spawnSnake() {
+    if (this.snakeSpawnTimer <= 0) {
+      this.gameObjects.push(new Snake());
+      this.snakeSpawnTimer = 100;
+    }
+
+    this.snakeSpawnTimer -= deltaTime;
+  }
+
+  public draw() {
+    background ("#9bf");
+    
+    for (const gameObject of this.gameObjects) {
+      gameObject.draw();
+    }
+  }
+}
+
+
+
+
+
+
   //    private activeScreen: Screen[];
   //    constructor() {
   //      this.activeScreen = [];
@@ -38,33 +77,33 @@ class Game {
 }
 
 // Game Board
-class GameBoard {
-  size: p5.Vector;
-  entities: Entity[];
-  //collision: CollisionManager;
-  //score: ScoreManager[];
+// class GameBoard {
+//   size: p5.Vector;
+//   entities: Entity[];
+//   //collision: CollisionManager;
+//   //score: ScoreManager[];
 
-  constructor(size: p5.Vector) {
-    this.size = size;
-    this.entities = [];
-    //this.collision = new CollisionManager();
-    //this.score = [];
-  }
+//   constructor(size: p5.Vector) {
+//     this.size = size;
+//     this.entities = [];
+//     //this.collision = new CollisionManager();
+//     //this.score = [];
+//   }
 
-  addEntity(entity: Entity): void {
-    this.entities.push(entity);
-  }
+//   addEntity(entity: Entity): void {
+//     this.entities.push(entity);
+//   }
 
-  removeEntity(entity: Entity): void {
-    this.entities = this.entities.filter((e) => e !== entity);
-  }
+//   removeEntity(entity: Entity): void {
+//     this.entities = this.entities.filter((e) => e !== entity);
+//   }
 
-  draw(): void {
-    for (const entity of this.entities) {
-      entity.draw();
-    }
-  }
-}
+//   draw(): void {
+//     for (const entity of this.entities) {
+//       entity.draw();
+//     }
+//   }
+// }
 
 // // Score Manager
 // class ScoreManager {
@@ -142,71 +181,71 @@ class GameBoard {
 // }
 
 // Level Factory
-class LevelFactory {
-  private gridSize: number = 32;
+// class LevelFactory {
+//   private gridSize: number = 32;
 
-  draw(): void {
-    // Draw level creation elements
-    push();
-    stroke(150, 150, 150);
-    strokeWeight(2);
-    for (let x = 0; x < width * 2; x += this.gridSize) {
-      line(x, 0, x, height);
-    }
-    for (let y = 0; y < height; y += this.gridSize) {
-      line(0, y, width * 2, y);
-    }
-    pop();
-  }
-}
+//   draw(): void {
+//     // Draw level creation elements
+//     push();
+//     stroke(150, 150, 150);
+//     strokeWeight(2);
+//     for (let x = 0; x < width * 2; x += this.gridSize) {
+//       line(x, 0, x, height);
+//     }
+//     for (let y = 0; y < height; y += this.gridSize) {
+//       line(0, y, width * 2, y);
+//     }
+//     pop();
+//   }
+// }
 
-// IMovable Interface
-interface IMovable {
-  position: p5.Vector;
-  direction: p5.Vector;
-  move(): void;
-}
+// // IMovable Interface
+// interface IMovable {
+//   position: p5.Vector;
+//   direction: p5.Vector;
+//   move(): void;
+// }
 
-// Entity Base Class
-abstract class Entity implements IMovable {
-  position: p5.Vector;
-  size: p5.Vector;
-  image: p5.Image;
-  speed: number;
-  direction: p5.Vector;
+// // Entity Base Class
+// abstract class Entity implements IMovable {
+//   position: p5.Vector;
+//   size: p5.Vector;
+//   image: p5.Image;
+//   speed: number;
+//   direction: p5.Vector;
 
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number,
-    direction: p5.Vector
-  ) {
-    this.position = position;
-    this.size = size;
-    this.image = image;
-    this.speed = speed;
-    this.direction = direction;
-  }
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number,
+//     direction: p5.Vector
+//   ) {
+//     this.position = position;
+//     this.size = size;
+//     this.image = image;
+//     this.speed = speed;
+//     this.direction = direction;
+//   }
 
-  draw(): void {
-    image(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.size.x,
-      this.size.y
-    );
-  }
-  move(): void {
-    if (typeof this.speed === "number") {
-      this.position.add(this.direction.mult(this.speed));
-    } else {
-      console.error("speed must be a number");
-    }
-  }
-  abstract update(): void;
-}
+//   draw(): void {
+//     image(
+//       this.image,
+//       this.position.x,
+//       this.position.y,
+//       this.size.x,
+//       this.size.y
+//     );
+//   }
+//   move(): void {
+//     if (typeof this.speed === "number") {
+//       this.position.add(this.direction.mult(this.speed));
+//     } else {
+//       console.error("speed must be a number");
+//     }
+//   }
+//   abstract update(): void;
+// }
 
 // // Player Class
 // class Player implements IMovable {
@@ -276,28 +315,28 @@ abstract class Entity implements IMovable {
 //   }
 // }
 
-class Ghost extends Entity {
-  constructor(
-    position: p5.Vector,
-    size: p5.Vector,
-    image: p5.Image,
-    speed: number
-  ) {
-    super(position, size, image, speed);
-  }
+// class Ghost extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
+//   }
 
-  draw(): void {
-    // Draw ghost entity
-  }
+//   draw(): void {
+//     // Draw ghost entity
+//   }
 
-  update(): void {
-    // Update ghost entity
-  }
+//   update(): void {
+//     // Update ghost entity
+//   }
 
-  move(): void {
-    // Move ghost entity
-  }
-}
+//   move(): void {
+//     // Move ghost entity
+//   }
+// }
 
 // class TetrisObstacle extends Entity {
 //   constructor(
@@ -371,4 +410,6 @@ class Ghost extends Entity {
 //   draw(): void {
 //     // Draw button UI
 //   }
-// }
+
+
+}
