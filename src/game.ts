@@ -1,38 +1,4 @@
-// Main Game Class
-class Game {
-  private gameObjects: GameObject[] = [];
-  private snakeSpawnTimer: number;;
 
-  constructor() {
-    this.gameObjects = [new Player()];
-    this.snakeSpawnTimer = 0;
-  }
-
-  public update() {
-    for (const gameObject of this.gameObjects) {
-      gameObject.update();
-    }
-
-    this.spawnSnake();
-  }
-
-  private spawnSnake() {
-    if (this.snakeSpawnTimer <= 0) {
-      this.gameObjects.push(new Snake());
-      this.snakeSpawnTimer = 100;
-    }
-
-    this.snakeSpawnTimer -= deltaTime;
-  }
-
-  public draw() {
-    background ("#9bf");
-    
-    for (const gameObject of this.gameObjects) {
-      gameObject.draw();
-    }
-  }
-}
 
 
 
