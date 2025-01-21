@@ -1,185 +1,68 @@
-
+// Main Game Class
 class Game {
-  private gridWidth: number = 30;
-  private gridHeight: number = 30;
-  private gameStarted: boolean = false;
-  private startingSegments: number = 10;
-  private xStart: number = 0;
-  private yStart: number = 15;
-  private startDirection: p5.Vector = createVector(1, 0);
-  private snake: Snake;
-  private score: number = 0;
-  private highScore: number;
-  private fruit: p5.Vector;
-
+  private activeScreen: GameScreen[];
   constructor() {
-    this.snake = new Snake(this.gridWidth, this.gridHeight, this.startingSegments, this.xStart, this.yStart, this.startDirection);
-    this.highScore = getItem('high score') || 0;
-    this.updateFruitCoordinates();
+    this.activeScreen = [new GameBoard()];
+  }
+  changeScreen(): void {
+    // Logic to change the screen
+  }
+  newGame(): void {
+    // Logic to start a new game
   }
 
-  update() {
-    if (this.gameStarted) {
-      this.snake.update();
-      this.player.update();
-      if (this.snake.checkForCollision()) {
-        this.gameOver();
-      } else if (this.snake.checkForFruit(this.fruit)) {
-        this.score++;
-        this.updateFruitCoordinates();
-      }
+  public update() {
+    for (const screen of this.activeScreen) {
+      screen.update();
     }
   }
 
-  draw() {
-    background(0);
-    scale(width / this.gridWidth, height / this.gridHeight);
-    if (!this.gameStarted) {
-      this.showStartScreen();
-    } else {
-      translate(0.5, 0.5);
-      this.showFruit();
-      this.snake.draw();
-      this.player.draw();
+  draw(): void {
+    // Draw the current active screen
+    for (const screen of this.activeScreen) {
+      screen.draw();
     }
   }
-
-  startGame() {
-    this.snake = new Snake(this.gridWidth, this.gridHeight, this.startingSegments, this.xStart, this.yStart, this.startDirection);
-    this.score = 0;
-    this.gameStarted = true;
-    loop();
-  }
-
-  handleKeyPressed() {
-    switch (keyCode) {
-      case LEFT_ARROW:
-        this.snake.setDirection(createVector(-1, 0));
-        break;
-      case RIGHT_ARROW:
-        this.snake.setDirection(createVector(1, 0));
-        break;
-      case UP_ARROW:
-        this.snake.setDirection(createVector(0, -1));
-        break;
-      case DOWN_ARROW:
-        this.snake.setDirection(createVector(0, 1));
-        break;
-    }
+  end(): void {
+    //     // Logic to end the game
   }
 }
-
-let game: Game;
-
-function setup() {
-  createCanvas(500, 500);
-  frameRate(10);
-  textAlign(CENTER, CENTER);
-  textSize(2);
-  game = new Game();
-}
-
-function draw() {
-  game.update();
-  game.draw();
-}
-
-function mousePressed() {
-  if (!game.gameStarted) {
-    game.startGame();
-  }
-}
-
-function keyPressed() {
-  game.handleKeyPressed();
-}
-
-
-
-
-
-
-
-
-// class Game {
-//   private activeScreen: Screen[];
-
-//   constructor() {
-//     this.activeScreen = [];
-//   }
-//   changeScreen(): void {
-//     // Logic to change the screen
-//   }
-//   newGame(): void {
-//     // Logic to start a new game
-//   }
-
-//   public update(): void {
-//     // logic to change the screen
-//   }
-
-//   draw(): void {
-//    // Draw the current active screen
-//     for (const screen of this.activeScreen) {
-//       screen.draw();
-//     }
-//   }
-//   end(): void {
-//   // // Logic to end the game
-//   }
-// }
-
-
-
-
-
-
-
-
-  // // Collision Manager
-  // class CollisionManager {
-  //   players: Player[];
-  //   entities: Entity[];
-  //   constructor() {
-  //     this.players = [];
-  //     this.entities = [];
-  //   }
-  //   checkCollision(player: Player, gameBoard: GameBoard): boolean {
-  //     // Check for collisions between players and entities
-  //     return false;
-  //   }
-  //   draw(): void {
-  //     // Visual representation of collisions, if needed
-  //   }
-// }
-// Game Board
-// class GameBoard {
-//   size: p5.Vector;
+// // Collision Manager
+// class CollisionManager {
+//   players: Player[];
 //   entities: Entity[];
-//   //collision: CollisionManager;
-//   //score: ScoreManager[];
-
-//   constructor(size: p5.Vector) {
-//     this.size = size;
+//   constructor() {
+//     this.players = [];
 //     this.entities = [];
-//     //this.collision = new CollisionManager();
-//     //this.score = [];
 //   }
-
-//   addEntity(entity: Entity): void {
-//     this.entities.push(entity);
+//   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+//     // Check for collisions between players and entities
+//     return false;
 //   }
-
-//   removeEntity(entity: Entity): void {
-//     this.entities = this.entities.filter((e) => e !== entity);
-//   }
-
 //   draw(): void {
-//     for (const entity of this.entities) {
-//       entity.draw();
-//     }
+//     // Visual representation of collisions, if needed
 //   }
 // }
+
+//   end(): void {
+//     // Logic to end the game
+//   }
+// }
+// // Collision Manager
+// class CollisionManager {
+//   players: Player[];
+//   entities: Entity[];
+//   constructor() {
+//     this.players = [];
+//     this.entities = [];
+//   }
+//   checkCollision(player: Player, gameBoard: GameBoard): boolean {
+//     // Check for collisions between players and entities
+//     return false;
+//   }
+//   draw(): void {
+//     // Visual representation of collisions, if needed
+//   }
 
 // // Score Manager
 // class ScoreManager {
@@ -196,30 +79,6 @@ function keyPressed() {
 
 //   draw(): void {
 //     // Draw the score UI
-//   }
-// }
-
-// Screen Base Class
-// abstract class Screen {
-//   abstract update(): void;
-//   abstract draw(): void;
-// }
-
-// // Start Menu
-// class StartMenu extends Screen {
-//   startGameButton: Button;
-
-//   constructor(button: Button) {
-//     super();
-//     this.startGameButton = button;
-//   }
-
-//   update(): void {
-//     // Update start menu logic
-//   }
-
-//   draw(): void {
-//     this.startGameButton.draw();
 //   }
 // }
 
@@ -256,72 +115,7 @@ function keyPressed() {
 //   }
 // }
 
-// Level Factory
-// class LevelFactory {
-//   private gridSize: number = 32;
-
-//   draw(): void {
-//     // Draw level creation elements
-//     push();
-//     stroke(150, 150, 150);
-//     strokeWeight(2);
-//     for (let x = 0; x < width * 2; x += this.gridSize) {
-//       line(x, 0, x, height);
-//     }
-//     for (let y = 0; y < height; y += this.gridSize) {
-//       line(0, y, width * 2, y);
-//     }
-//     pop();
-//   }
-// }
-
-// // IMovable Interface
-// interface IMovable {
-//   position: p5.Vector;
-//   direction: p5.Vector;
-//   move(): void;
-// }
-
-// // Entity Base Class
-// abstract class Entity implements IMovable {
-//   position: p5.Vector;
-//   size: p5.Vector;
-//   image: p5.Image;
-//   speed: number;
-//   direction: p5.Vector;
-
-//   constructor(
-//     position: p5.Vector,
-//     size: p5.Vector,
-//     image: p5.Image,
-//     speed: number,
-//     direction: p5.Vector
-//   ) {
-//     this.position = position;
-//     this.size = size;
-//     this.image = image;
-//     this.speed = speed;
-//     this.direction = direction;
-//   }
-
-//   draw(): void {
-//     image(
-//       this.image,
-//       this.position.x,
-//       this.position.y,
-//       this.size.x,
-//       this.size.y
-//     );
-//   }
-//   move(): void {
-//     if (typeof this.speed === "number") {
-//       this.position.add(this.direction.mult(this.speed));
-//     } else {
-//       console.error("speed must be a number");
-//     }
-//   }
-//   abstract update(): void;
-// }
+// IMovable Interface
 
 // // Player Class
 // class Player implements IMovable {
@@ -344,28 +138,58 @@ function keyPressed() {
 //   }
 // }
 
-// Specific Entities
-// class Heart extends Entity {
-//   private  pulseScale: number;
-//   private  pulseSpeed: number;
+// // Button Class
+// class Button {
+//   text: string;
+// // IMovable Interface
+// interface IMovable {
+//   position: p5.Vector;
+//   // direction: p5.Vector;
+//   move(): void;
+// }
+
+// // Entity Base Class
+// abstract class Entity implements IMovable {
+//   position: p5.Vector;
+//   size: p5.Vector;
+//   image: p5.Image;
+//   speed: number;
 
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
 //     image: p5.Image,
+//     speed: number,
 //   ) {
-//     super(position, size, image, 0, p5.Vector.random2D());
-//     this.pulseScale = 1;
-//     this.pulseSpeed = 0.01;
+//     this.position = position;
+//     this.size = size;
+//     this.image = image;
+//     this.speed = speed;
+//   }
+
+//   abstract draw(): void;
+//   abstract update(): void;
+//   abstract move(): void;
+// }
+
+// Specific Entities
+// class Heart extends Entity {
+//   constructor(
+//     position: p5.Vector,
+//     size: p5.Vector,
+//     image: p5.Image,
+//     speed: number
+//   ) {
+//     super(position, size, image, speed);
 //   }
 //   draw(): void {
-//     // TODO Draw heart or import an existing image?
+//     // Draw heart entity
 //   }
 //   update(): void {
-//     // Here we update 'pulse' animation on heart
-//     this.pulseScale = 1 + 0.2 * Math.sin(millis() * this.pulseSpeed);
-//     console.log(this.pulseScale);
-
+//     // Update heart entity
+//   }
+//   move(): void {
+//     // Move heart entity
 //   }
 
 // class Star extends Entity {
@@ -414,7 +238,7 @@ function keyPressed() {
 //   }
 // }
 
-// class TetrisObstacle extends Entity {
+// class TetrisHinder extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
@@ -435,10 +259,8 @@ function keyPressed() {
 //   move(): void {
 //     // Move Tetris hinder entity
 //   }
-// }
 
-// // meeteaterplant class
-// class CarnivorusPlant extends Entity {
+// class MeatEaterPlant extends Entity {
 //   constructor(
 //     position: p5.Vector,
 //     size: p5.Vector,
@@ -460,32 +282,3 @@ function keyPressed() {
 //     // Move MeatEaterPlant entity
 //   }
 // }
-
-// // Button Class
-// class Button {
-//   text: string;
-//   position: p5.Vector;
-//   backgroundColor: string;
-//   size: p5.Vector;
-//   color: string;
-
-//   constructor(
-//     text: string,
-//     position: p5.Vector,
-//     backgroundColor: string,
-//     size: p5.Vector,
-//     color: string
-//   ) {
-//     this.text = text;
-//     this.position = position;
-//     this.backgroundColor = backgroundColor;
-//     this.size = size;
-//     this.color = color;
-//   }
-
-//   draw(): void {
-//     // Draw button UI
-//   }
-
-
-}
