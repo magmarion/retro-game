@@ -1,24 +1,141 @@
 
-  //    private activeScreen: Screen[];
-  //   //  constructor() {
-  //      this.activeScreen = [];
-  //    }
-  //   changeScreen(): void {
-  //     // Logic to change the screen
-  //   }
-  //   // newGame(): void {
-  //     // Logic to start a new game
-  //   }
-  //  draw(): void {
-  //    // Draw the current active screen
-  //    for (const screen of this.activeScreen) {
-  //      screen.draw();
-  //    }
-  //  }
-  //   end(): void {
-  //     // Logic to end the game
-  //   }
-  // }
+class Game {
+  private gridWidth: number = 30;
+  private gridHeight: number = 30;
+  private gameStarted: boolean = false;
+  private startingSegments: number = 10;
+  private xStart: number = 0;
+  private yStart: number = 15;
+  private startDirection: p5.Vector = createVector(1, 0);
+  private snake: Snake;
+  private score: number = 0;
+  private highScore: number;
+  private fruit: p5.Vector;
+
+  constructor() {
+    this.snake = new Snake(this.gridWidth, this.gridHeight, this.startingSegments, this.xStart, this.yStart, this.startDirection);
+    this.highScore = getItem('high score') || 0;
+    this.updateFruitCoordinates();
+  }
+
+  update() {
+    if (this.gameStarted) {
+      this.snake.update();
+      this.player.update();
+      if (this.snake.checkForCollision()) {
+        this.gameOver();
+      } else if (this.snake.checkForFruit(this.fruit)) {
+        this.score++;
+        this.updateFruitCoordinates();
+      }
+    }
+  }
+
+  draw() {
+    background(0);
+    scale(width / this.gridWidth, height / this.gridHeight);
+    if (!this.gameStarted) {
+      this.showStartScreen();
+    } else {
+      translate(0.5, 0.5);
+      this.showFruit();
+      this.snake.draw();
+      this.player.draw();
+    }
+  }
+
+  startGame() {
+    this.snake = new Snake(this.gridWidth, this.gridHeight, this.startingSegments, this.xStart, this.yStart, this.startDirection);
+    this.score = 0;
+    this.gameStarted = true;
+    loop();
+  }
+
+  handleKeyPressed() {
+    switch (keyCode) {
+      case LEFT_ARROW:
+        this.snake.setDirection(createVector(-1, 0));
+        break;
+      case RIGHT_ARROW:
+        this.snake.setDirection(createVector(1, 0));
+        break;
+      case UP_ARROW:
+        this.snake.setDirection(createVector(0, -1));
+        break;
+      case DOWN_ARROW:
+        this.snake.setDirection(createVector(0, 1));
+        break;
+    }
+  }
+}
+
+let game: Game;
+
+function setup() {
+  createCanvas(500, 500);
+  frameRate(10);
+  textAlign(CENTER, CENTER);
+  textSize(2);
+  game = new Game();
+}
+
+function draw() {
+  game.update();
+  game.draw();
+}
+
+function mousePressed() {
+  if (!game.gameStarted) {
+    game.startGame();
+  }
+}
+
+function keyPressed() {
+  game.handleKeyPressed();
+}
+
+
+
+
+
+
+
+
+// class Game {
+//   private activeScreen: Screen[];
+
+//   constructor() {
+//     this.activeScreen = [];
+//   }
+//   changeScreen(): void {
+//     // Logic to change the screen
+//   }
+//   newGame(): void {
+//     // Logic to start a new game
+//   }
+
+//   public update(): void {
+//     // logic to change the screen
+//   }
+
+//   draw(): void {
+//    // Draw the current active screen
+//     for (const screen of this.activeScreen) {
+//       screen.draw();
+//     }
+//   }
+//   end(): void {
+//   // // Logic to end the game
+//   }
+// }
+
+
+
+
+
+
+
+
   // // Collision Manager
   // class CollisionManager {
   //   players: Player[];
