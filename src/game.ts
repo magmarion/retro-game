@@ -1,18 +1,12 @@
 
-
-
-
-
-
-
   //    private activeScreen: Screen[];
-  //    constructor() {
+  //   //  constructor() {
   //      this.activeScreen = [];
   //    }
   //   changeScreen(): void {
   //     // Logic to change the screen
   //   }
-  //   newGame(): void {
+  //   // newGame(): void {
   //     // Logic to start a new game
   //   }
   //  draw(): void {
@@ -40,8 +34,7 @@
   //   draw(): void {
   //     // Visual representation of collisions, if needed
   //   }
-}
-
+// }
 // Game Board
 // class GameBoard {
 //   size: p5.Vector;
