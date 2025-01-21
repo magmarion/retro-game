@@ -5,20 +5,20 @@ class Snake {
     private gridHeight: number;
   
     constructor(gridWidth: number, gridHeight: number, startingSegments: number, xStart: number, yStart: number, startDirection: p5.Vector) {
-      this.gridWidth = gridWidth;
-      this.gridHeight = gridHeight;
-      this.direction = startDirection;
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
+        this.direction = startDirection;
   
-      for (let x = xStart; x < xStart + startingSegments; x += 1) {
-        this.segments.unshift(createVector(x, yStart));
-      }
+        for (let x = xStart; x < xStart + startingSegments; x += 1) {
+            this.segments.unshift(createVector(x, yStart));
+        }
     }
   
     update() {
-      this.segments.pop();
-      let head = this.segments[0].copy();
-      head.add(this.direction);
-      this.segments.unshift(head);
+        this.segments.pop();
+        let head = this.segments[0].copy();
+        head.add(this.direction);
+        this.segments.unshift(head);
     }
 
     draw() {
@@ -48,10 +48,10 @@ class Snake {
         ) {
           return true;
         }
-        return false;
-      }
+    return false;
+    }
 
-      selfColliding(): boolean {
+    selfColliding(): boolean {
         let head = this.segments[0];
         let segmentsAfterHead = this.segments.slice(1);
         for (let segment of segmentsAfterHead) {
@@ -59,15 +59,15 @@ class Snake {
             return true;
           }
         }
-        return false;
-      }
+    return false;
+    }
     
-      checkForFruit(fruit: p5.Vector): boolean {
+    checkForFruit(fruit: p5.Vector): boolean {
         let head = this.segments[0];
         if (head.equals(fruit)) {
           this.segments.push(this.segments[this.segments.length - 1].copy());
           return true;
         }
-        return false;
-      }
+    return false;
     }
+}
