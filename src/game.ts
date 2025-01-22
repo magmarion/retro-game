@@ -1,6 +1,8 @@
 // Main Game Class
 class Game {
   private activeScreen: GameScreen[];
+  private scoreManager: ScoreManager;
+
   constructor() {
     this.activeScreen = [
       new StartMenu(
@@ -13,7 +15,10 @@ class Game {
         )
       )
     ];
+
+    this.scoreManager = new ScoreManager(5, images.heart);
   }  
+
   changeScreen(newScreen: GameScreen): void {
     this.activeScreen = [newScreen];
   }
@@ -35,6 +40,10 @@ class Game {
     for (const screen of this.activeScreen) {
       screen.draw();
     }
+
+      // Rita hjärtan från ScoreManager
+      this.scoreManager.draw();
+
   }
   end(): void {
     //     // Logic to end the game
