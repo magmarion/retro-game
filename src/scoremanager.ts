@@ -15,18 +15,16 @@ class ScoreManager {
       }
     }
   
-    draw(): void {
+    draw(x: number, y:number): void {
       const heartSize = 40;
       const spacing = 10;
-      const startX = 20;
-      const startY = 20;
   
       for (let i = 0; i < this.maxHealth; i++) {
         if (i < this.health) {
-          image(this.heartImage, startX + i * (heartSize + spacing), startY, heartSize, heartSize);
+          image(this.heartImage, x + i * (heartSize + spacing), y, heartSize, heartSize);
         } else {
           tint(255, 100); // Transparent hjärta
-          image(this.heartImage, startX + i * (heartSize + spacing), startY, heartSize, heartSize);
+          image(this.heartImage, x + i * (heartSize + spacing), y, heartSize, heartSize);
           noTint();
         }
       }
