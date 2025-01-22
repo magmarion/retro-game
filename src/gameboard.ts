@@ -1,6 +1,7 @@
 /// <reference path="gamescreen.ts" />
 
 class GameBoard extends GameScreen {
+  private scoreManager: ScoreManager;
   entities: Entity[];
   players: Player[];
 
@@ -27,6 +28,8 @@ class GameBoard extends GameScreen {
         LEFT: 65,
       }),
     ];
+
+    this.scoreManager = new ScoreManager(5, images.heart);
   }
 
   addEntity(entity: Entity): void {
@@ -44,6 +47,9 @@ class GameBoard extends GameScreen {
     for (const player of this.players) {
       player.update();
     }
+
+    // Heart ScoreManager logic
+    this.scoreManager.update();
 
     this.flyingGhost();
   }
@@ -65,5 +71,7 @@ class GameBoard extends GameScreen {
     for (const player of this.players) {
       player.draw();
     }
+          // Rita hjärtan från ScoreManager
+          this.scoreManager.draw();
   }
 }
