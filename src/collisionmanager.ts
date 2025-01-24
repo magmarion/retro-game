@@ -1,90 +1,89 @@
 interface Obstacle {
-    row: number;
-    col: number;
-    color: string;
+  row: number;
+  col: number;
+  color: string;
 }
 
 interface GridPosition {
-    row: number;
-    col: number;
+  row: number;
+  col: number;
 }
 
 class CollisionManager {
-    players: Player[];
-    entities: Entity[];
+  players: Player[];
+  entities: Entity[];
 
-    constructor(players: Player[], entities: Entity[]) {
-        this.players = players;
-        this.entities = entities;
-    }
+  constructor(players: Player[], entities: Entity[]) {
+    this.players = players;
+    this.entities = entities;
+  }
 
-    private handleTetrisCollision(player: Player): void {
-        music.tetrisCollision.play();
-        player.isColliding = true;
-        player.isMoving = false;
-        console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
-      }
+  private handleTetrisCollision(player: Player): void {
+    music.tetrisCollision.play();
+    player.isColliding = true;
+    player.isMoving = false;
+    console.log(`Player ${player.playerNumber} collided with a TetrisBlock.`);
+  }
 
-      private handleStarCollision(player: Player): void {
-        music.starCollision.play();
-        player.isColliding = true;
-        // player.score += 100; // Lägg till poäng
-        console.log(`Player ${player.playerNumber} collected a Star!`);
-      }
+  private handleStarCollision(player: Player): void {
+    music.starCollision.play();
+    player.isColliding = true;
+    // player.score += 100; // Lägg till poäng
+    console.log(`Player ${player.playerNumber} collected a Star!`);
+  }
 
-    checkCollision(): void {
-        for (const player of this.players) {
-            const head = player.trail[0];
-            const headLeft = head.x;
-            const headRight = head.x + player.size.x;
-            const headTop = head.y;
-            const headBottom = head.y + player.size.y;
+  checkCollision(): void {
+    for (const player of this.players) {
+      const head = player.trail[0];
+      const headLeft = head.x;
+      const headRight = head.x + player.size.x;
+      const headTop = head.y;
+      const headBottom = head.y + player.size.y;
 
-            // Flagga för att spåra om en kollision upptäcks
-            let hasCollision = false;
+      // Flagga för att spåra om en kollision upptäcks
+      let hasCollision = false;
 
-            for (const entity of this.entities) {
-                const entityLeft = entity.position.x - entity.size.x / 2;
-                const entityRight = entity.position.x + entity.size.x / 2;
-                const entityTop = entity.position.y - entity.size.y / 2;
-                const entityBottom = entity.position.y + entity.size.y / 2;
+      for (const entity of this.entities) {
+        const entityLeft = entity.position.x - entity.size.x / 2;
+        const entityRight = entity.position.x + entity.size.x / 2;
+        const entityTop = entity.position.y - entity.size.y / 2;
+        const entityBottom = entity.position.y + entity.size.y / 2;
 
-                // Kontrollera om ormens huvud överlappar blockets kant
-                const isColliding =
-                    headRight > entityLeft &&
-                    headLeft < entityRight &&
-                    headBottom > entityTop &&
-                    headTop < entityBottom;
+        // Kontrollera om ormens huvud överlappar blockets kant
+        const isColliding =
+          headRight > entityLeft &&
+          headLeft < entityRight &&
+          headBottom > entityTop &&
+          headTop < entityBottom;
 
-                if (isColliding) {
-                    hasCollision = true; // Markera att en kollision upptäckts
+        if (isColliding) {
+          hasCollision = true; // Markera att en kollision upptäckts
 
-                    if (!player.isColliding) {
-                        // Hantera kollision baserat på entitetstyp
-                        if (entity instanceof TetrisBlock) {
-                            this.handleTetrisCollision(player);
-                        } else if (entity instanceof Star) {
-                            this.handleStarCollision(player);
-                        } else if (entity instanceof AnotherEntityType) {
-                            handleAnotherEntityCollision(player);
-                        } else {
-                            handleDefaultCollision(player);
-                        }
-                    }
-
-                    // Avsluta loopen för entiteter eftersom kollision upptäcktes
-                    break;
-                }
+          if (!player.isColliding) {
+            // Hantera kollision baserat på entitetstyp
+            if (entity instanceof Block) {
+              this.handleTetrisCollision(player);
+            } else if (entity instanceof Star) {
+              this.handleStarCollision(player);
+            } else if (entity instanceof AnotherEntityType) {
+              handleAnotherEntityCollision(player);
+            } else {
+              handleDefaultCollision(player);
             }
+          }
 
-            // Återställ kollisionen om ingen upptäcktes
-            if (!hasCollision) {
-                player.isColliding = false;
-            }
+          // Avsluta loopen för entiteter eftersom kollision upptäcktes
+          break;
         }
-    }
-}
+      }
 
+      // Återställ kollisionen om ingen upptäcktes
+      if (!hasCollision) {
+        player.isColliding = false;
+      }
+    }
+  }
+}
 
 // Om ingen kollision upptäcks, återställ flaggor
 
