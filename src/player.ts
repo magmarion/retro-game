@@ -30,7 +30,9 @@ class Player extends Entity {
     trailStrokeColor: string,
     keyBindings: KeyBindings
   ) {
-    const size = createVector(32, 32); // Changed from 25 to 32 to align with gridSize
+    const size = createVector(32, 32);
+    // Adjust position.y to be at half grid size (16 pixels)
+    position.y = position.y + 16;
     super(position, size, images.head1, 0, 0, createVector(0, 500));
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
