@@ -32,6 +32,8 @@ class Player extends Entity {
   ) {
     const size = createVector(32, 32);
     // Adjust position.y to be at half grid size (16 pixels)
+
+    position.x = position.x + 16;
     position.y = position.y + 16;
     super(position, size, images.head1, 0, 0, createVector(0, 500));
     this.trail = [
