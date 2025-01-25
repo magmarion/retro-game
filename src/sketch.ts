@@ -32,6 +32,11 @@ let music: {
 
 let customFont: p5.Font;
 
+const levelFactory = new LevelFactory();
+const gridSize = levelFactory.gridSize; // Access gridSize directly since it's now public
+
+let showGrid: boolean = false; // Toggle for grid visibility
+
 /**
  * Built in preload function in P5
  * This is a good place to load assets such as
@@ -67,7 +72,6 @@ function preload() {
     // tetrisJ: loadImage("/assets/images/tetris.png"),
     // tetrisT: loadImage("/assets/images/tetris.png"),
     // tetrisHero: loadImage("/assets/images/tetris.png"),
-    
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -80,11 +84,11 @@ function preload() {
  * in the draw function belows
  */
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  const canvasSize = 800; // Set a fixed canvas size for a square
+  createCanvas(canvasSize, canvasSize);
   frameRate(60);
   textFont(customFont);
   game = new Game();
-  
 }
 
 /**
@@ -95,13 +99,41 @@ function setup() {
 function draw() {
   game.update();
   game.draw();
+
+  if (showGrid) {
+    drawDebugGrid();
+  }
+}
+
+// Function to draw the debug grid
+function drawDebugGrid(): void {
+  stroke(200, 0, 0, 100); // Red color with transparency
+  strokeWeight(1);
+
+  // Draw vertical lines
+  for (let x = 0; x <= width; x += gridSize) {
+    line(x, 0, x, height);
+  }
+
+  // Draw horizontal lines
+  for (let y = 0; y <= height; y += gridSize) {
+    line(0, y, width, y);
+  }
+}
+
+// Optional: Toggle grid visibility with the 'G' key
+function keyPressed() {
+  if (key === "G" || key === "g") {
+    showGrid = !showGrid;
+  }
 }
 
 /**
  *  Built in windowResize listener function in P5
  */
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  const newSize = min(windowWidth, windowHeight); // Choose the smaller dimension to maintain a square
+  resizeCanvas(newSize, newSize);
 }
 
 /**

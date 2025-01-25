@@ -30,7 +30,7 @@ class Player extends Entity {
     trailStrokeColor: string,
     keyBindings: KeyBindings
   ) {
-    const size = createVector(20, 20); // Changed from 20 to 50
+    const size = createVector(32, 32); // Changed from 25 to 32 to align with gridSize
     super(position, size, images.head1, 0, 0, createVector(0, 500));
     this.trail = [
       createVector(this.position.x - size.x, this.position.y),
@@ -46,7 +46,7 @@ class Player extends Entity {
     this.trailFillColor = trailFillColor;
     this.trailStrokeColor = trailStrokeColor;
     this.moveTimer = 0;
-    this.direction = createVector(20, 0); // Changed from 20 to 50
+    this.direction = createVector(32, 0); // Changed from 25 to 32
     this.nextDirection = this.direction.copy();
     this.keyBindings = keyBindings;
 
@@ -57,13 +57,13 @@ class Player extends Entity {
     // Lyssnar på tangenttryckningar och sätter nästa riktning
 
     if (keyIsDown(this.keyBindings.UP) && this.direction.y === 0) {
-      this.nextDirection = createVector(0, -20); // Changed from 20 to 50
+      this.nextDirection = createVector(0, -32); // Changed from 25 to 32
     } else if (keyIsDown(this.keyBindings.DOWN) && this.direction.y === 0) {
-      this.nextDirection = createVector(0, 20); // Changed from 20 to 50
+      this.nextDirection = createVector(0, 32); // Changed from 25 to 32
     } else if (keyIsDown(this.keyBindings.LEFT) && this.direction.x === 0) {
-      this.nextDirection = createVector(-20, 0); // Changed from 20 to 50
+      this.nextDirection = createVector(-32, 0); // Changed from 25 to 32
     } else if (keyIsDown(this.keyBindings.RIGHT) && this.direction.x === 0) {
-      this.nextDirection = createVector(20, 0); // Changed from 20 to 50
+      this.nextDirection = createVector(32, 0); // Changed from 25 to 32
     }
   }
 
@@ -107,7 +107,7 @@ class Player extends Entity {
         fill(this.trailFillColor);
       }
 
-      let diameter = Math.max(this.size.x, this.size.y);
+      let diameter = 32; // Set diameter to match gridSize for alignment
       ellipse(position.x, position.y, diameter, diameter);
     }
 

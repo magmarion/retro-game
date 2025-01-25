@@ -4,7 +4,7 @@ class Block extends Entity {
   constructor(x: number, y: number) {
     super(
       createVector(x, y),
-      createVector(50, 50), // Changed from 32 to 50
+      createVector(32, 32), // Changed from 25 to 32 to align with gridSize
       null, // Ingen bild behövs
       0,
       0,
@@ -16,11 +16,6 @@ class Block extends Entity {
   draw(): void {
     fill(255, 223, 0); // Gul färg
     noStroke();
-    rect(
-      this.position.x - this.size.x / 2,
-      this.position.y - this.size.y / 2,
-      this.size.x,
-      this.size.y
-    ); // Center the block
+    rect(this.position.x - this.size.x / 2, this.position.y - this.size.y / 2, this.size.x, this.size.y); // Center the block
   }
 }
