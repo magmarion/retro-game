@@ -65,10 +65,13 @@ class CollisionManager {
               this.handleTetrisCollision(player);
             } else if (entity instanceof Star) {
               this.handleStarCollision(player);
-            } else if (entity instanceof AnotherEntityType) {
-              handleAnotherEntityCollision(player);
-            } else {
-              handleDefaultCollision(player);
+            }
+            // else if (entity instanceof AnotherEntityType) {
+            //   handleAnotherEntityCollision(player);
+            // }
+            else {
+              // handleDefaultCollision(player);
+              return;
             }
           }
 

@@ -5,13 +5,14 @@ class Ghost extends Entity {
    * The Ghost is given a random initial position, a size of 100x100, and the
    * image of a ghost. The initial velocity is set to 0.
    */
+
   constructor(x: number, y: number) {
     super(
-      createVector(x, y),
-      createVector(100, 100),
-      images.ghost,
-      0.5,
-      0.5,
+      createVector(x + 16, y + 16),
+      createVector(32, 32), // Changed from 25 to 32 to align with gridSize
+      images.ghost, // Ingen bild behövs
+      0,
+      0,
       createVector(0, 0)
     );
   }
@@ -25,23 +26,23 @@ class Ghost extends Entity {
    *
    * If the ghost's image is not loaded, it will log an error and do nothing.
    */
-  draw(): void {
-    if (!this.image) {
-      console.error("Ghost image not loaded");
-      return;
-    }
+  // draw(): void {
+  //   if (!this.image) {
+  //     console.error("Ghost image not loaded");
+  //     return;
+  //   }
 
-    push();
-    translate(this.position.x, this.position.y);
-    image(
-      this.image,
-      -this.size.x / 2,
-      -this.size.y / 2,
-      this.size.x,
-      this.size.y
-    );
-    pop();
-  }
+  //   push();
+  //   translate(this.position.x, this.position.y);
+  //   image(
+  //     this.image,
+  //     -this.size.x / 2,
+  //     -this.size.y / 2,
+  //     this.size.x,
+  //     this.size.y
+  //   );
+  //   pop();
+  // }
 
   /**
    * Updates the ghost entity's position and direction.
