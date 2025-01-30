@@ -66,13 +66,7 @@ class GameOverScreen extends GameScreen {
    */
   update(): void {
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
-    if (this.restartButton.isClicked()) {
-      game.changeScreen(
-        new CountDown(defaultLevel, () => {
-          game.changeScreen(new GameBoard(defaultLevel));
-        })
-      );
-    }
+
     if (this.menyButton.isClicked()) {
       game.changeScreen(new Game());
     }
