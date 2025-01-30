@@ -44,7 +44,11 @@ let showGrid: boolean = false; // Toggle for grid visibility
 function preload() {
   // Load assets here
   music = {
+<<<<<<< HEAD
     backgroundMusic: loadSound("/assets/music/mario-background.mp3"),
+=======
+    background: loadSound("/assets/music/mario-background.mp3"),
+>>>>>>> 37ed1f51c0e457c262069c20165675fb9862fa36
   };
 
   sounds = {
@@ -55,8 +59,11 @@ function preload() {
     starPickUp: loadSound("/assets/sounds/star.mp3"),
     winner: loadSound("/assets/sounds/winner.mp3"),
     blockCollision: loadSound("/assets/sounds/error.mp3"),
+<<<<<<< HEAD
     wallCollision: loadSound("/assets/sounds/wall-collision.mp3"),
     goalline: loadSound("/assets/sounds/goalline.mp3"),
+=======
+>>>>>>> 37ed1f51c0e457c262069c20165675fb9862fa36
   };
 
   images = {
@@ -64,7 +71,11 @@ function preload() {
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
     Plant: loadImage("/assets/images/plant.gif"),
+<<<<<<< HEAD
     tetrisBlock: loadImage("/assets/images/tetrisBlock.gif"),
+=======
+    tetrisBlock: loadImage("/assets/images/tetrisBlock.webp"),
+>>>>>>> 37ed1f51c0e457c262069c20165675fb9862fa36
     wallBlock: loadImage("/assets/images/wallBlock.gif"),
   };
 
