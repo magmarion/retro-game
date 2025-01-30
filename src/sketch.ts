@@ -11,6 +11,8 @@ let images: {
   heart: p5.Image;
   ghost: p5.Image;
   Plant: p5.Image;
+  tetrisBlock: p5.Image;
+  wallBlock: p5.Image;
 };
 
 let music: {
@@ -40,7 +42,7 @@ let showGrid: boolean = false; // Toggle for grid visibility
 function preload() {
   // Load assets here
   music = {
-    background: loadSound("/assets/music/mario-background.mp3")
+    background: loadSound("/assets/music/mario-background.mp3"),
   };
 
   sounds = {
@@ -50,14 +52,16 @@ function preload() {
     ghost: loadSound("/assets/sounds/ghost.mp3"),
     starPickUp: loadSound("/assets/sounds/star.mp3"),
     winner: loadSound("/assets/sounds/winner.mp3"),
-    blockCollision: loadSound("/assets/sounds/error.mp3")
+    blockCollision: loadSound("/assets/sounds/error.mp3"),
   };
 
   images = {
     star: loadImage("/assets/images/star.webp"),
     heart: loadImage("/assets/images/heart.webp"),
     ghost: loadImage("assets/images/ghost.png"),
-    Plant: loadImage("/assets/images/plant.gif")
+    Plant: loadImage("/assets/images/plant.gif"),
+    tetrisBlock: loadImage("/assets/images/tetrisBlock.webp"),
+    wallBlock: loadImage("/assets/images/wallBlock.gif"),
   };
 
   customFont = loadFont("/assets/fonts/PressStart2P-Regular.ttf");
@@ -86,6 +90,7 @@ function setup() {
  * you created in the setup function above
  */
 function draw() {
+  background(50); // Change the color or add an image
   game.update();
   game.draw();
 
