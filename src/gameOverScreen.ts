@@ -2,6 +2,7 @@
 /// <reference path="scoreManager.ts" />
 /// <reference path="player.ts" />
 /// <reference path="levelfactory.ts" />
+
 /**
  * Visar spelskärmen för Game Over.
  */
@@ -65,6 +66,9 @@ class GameOverScreen extends GameScreen {
    * Uppdaterar Game Over-skärmen och hanterar klick på knappar.
    */
   update(): void {
+    // Define defaultLevel as 'easy'
+    const defaultLevel = levelFactory.getLevel("easy");
+
     // Här kan du lägga till logik om du vill uppdatera något under Game Over
     if (this.restartButton.isClicked()) {
       game.changeScreen(

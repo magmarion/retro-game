@@ -50,62 +50,82 @@ class StartMenu extends GameScreen {
 
   update(): void {
     if (this.startGameButton.isClicked()) {
-      userStartAudio(); // This ensures sound works after a user interaction
+      let selectedLevel: number[][];
 
-      // Ensure the background music starts immediately
-      if (!music.backgroundMusic.isPlaying()) {
-        music.backgroundMusic.loop();
-      }
+      // Välj rätt level baserat på vald svårighetsgrad
+      switch (this.selectedDifficulty || "easy") {
+        case "easy":
+          selectedLevel = this.levelFactory.level1;
+          break;
+        case "medium":
+          selectedLevel = this.levelFactory.level2;
+          break;
+        case "hard":
+          selectedLevel = this.levelFactory.level3;
+          break;
+        default:
+          selectedLevel = this.levelFactory.level1; // Om ingen svårighetsgrad är vald körs level1
+          userStartAudio(); // This ensures sound works after a user interaction
 
-      game.changeScreen(new CountDown());
+          // Ensure the background music starts immediately
+          if (!music.backgroundMusic.isPlaying()) {
+            music.backgroundMusic.loop();
+          }
 
-      if (this.startGameButton.isClicked() && this.selectedDifficulty) {
-        let selectedLevel: number[][];
+          game.changeScreen(
+            new CountDown(selectedLevel, () => {
+              game.changeScreen(new GameBoard(selectedLevel));
+            })
+          );
 
-        // Välj rätt level baserat på vald svårighetsgrad
-        switch (this.selectedDifficulty) {
-          case "easy":
-            selectedLevel = this.levelFactory.level1;
-            break;
-          case "medium":
-            selectedLevel = this.levelFactory.level2;
-            break;
-          case "hard":
-            selectedLevel = this.levelFactory.level3;
-            break;
-          default:
-            return; // Om ingen svårighetsgrad är vald, gör inget
-        }
+          if (this.startGameButton.isClicked() && this.selectedDifficulty) {
+            let selectedLevel: number[][];
 
-        // Byt till CountDown, som sedan startar GameBoard med rätt level
-        game.changeScreen(
-          new CountDown(selectedLevel, () => {
-            game.changeScreen(new GameBoard(selectedLevel));
-          })
-        );
-      }
+            // Välj rätt level baserat på vald svårighetsgrad
+            switch (this.selectedDifficulty) {
+              case "easy":
+                selectedLevel = this.levelFactory.level1;
+                break;
+              case "medium":
+                selectedLevel = this.levelFactory.level2;
+                break;
+              case "hard":
+                selectedLevel = this.levelFactory.level3;
+                break;
+              default:
+                return; // Om ingen svårighetsgrad är vald, gör inget
+            }
 
-      if (this.selectEasyMode.isClicked()) {
-        console.log("Easy mode selected");
-        this.selectedButton = this.selectEasyMode;
-        this.selectedDifficulty = "easy";
-      }
+            // Byt till CountDown, som sedan startar GameBoard med rätt level
+            game.changeScreen(
+              new CountDown(selectedLevel, () => {
+                game.changeScreen(new GameBoard(selectedLevel));
+              })
+            );
+          }
 
-      if (this.selectMediumMode.isClicked()) {
-        console.log("Medium mode selected");
-        this.selectedButton = this.selectMediumMode;
-        this.selectedDifficulty = "medium";
-      }
+          if (this.selectEasyMode.isClicked()) {
+            console.log("Easy mode selected");
+            this.selectedButton = this.selectEasyMode;
+            this.selectedDifficulty = "easy";
+          }
 
-      if (this.selectHardMode.isClicked()) {
-        console.log("Hard mode selected");
-        this.selectedButton = this.selectHardMode;
-        this.selectedDifficulty = "hard";
-      }
+          if (this.selectMediumMode.isClicked()) {
+            console.log("Medium mode selected");
+            this.selectedButton = this.selectMediumMode;
+            this.selectedDifficulty = "medium";
+          }
 
-      if (this.interactionScreen.isClicked()) {
-        console.log("Interaction selected");
-        game.changeScreen(new InteractionScreen());
+          if (this.selectHardMode.isClicked()) {
+            console.log("Hard mode selected");
+            this.selectedButton = this.selectHardMode;
+            this.selectedDifficulty = "hard";
+          }
+
+          if (this.interactionScreen.isClicked()) {
+            console.log("Interaction selected");
+            game.changeScreen(new InteractionScreen());
+          }
       }
     }
   }
