@@ -150,17 +150,17 @@ class CollisionManager {
     if (distance < 200) {
       console.log("Ghost is near, playing sound...");
 
-      if (!ghost.isSoundPlaying) {
-        sounds.ghost.play();
-        ghost.isSoundPlaying = true;
-        console.log("Ghost sound started");
-      } else {
-        if (ghost.isSoundPlaying) {
-          sounds.ghost.stop();
-          ghost.isSoundPlaying = false;
-          console.log("Ghost sound stopped");
-        }
-      }
+      // if (!ghost.isSoundPlaying) {
+      //   sounds.ghost.play();
+      //   ghost.isSoundPlaying = true;
+      //   console.log("Ghost sound started");
+      // } else {
+      //   if (ghost.isSoundPlaying) {
+      //     sounds.ghost.stop();
+      //     ghost.isSoundPlaying = false;
+      //     console.log("Ghost sound stopped");
+      //   }
+      // }
     }
   }
 

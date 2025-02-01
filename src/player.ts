@@ -94,7 +94,7 @@ class Player extends Entity {
     this.moveTimer += deltaTime;
     if (this.moveTimer >= 200) {
       // ↓ Justera this value att ändra hastigheten på spelaren
-      this.moveTimer = -100;
+      this.moveTimer = -20;
 
       this.direction = this.nextDirection.copy();
       const head = this.trail[0];
