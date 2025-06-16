@@ -1,9 +1,5 @@
 //---- GLOBAL VARIABLES ----//
 
-/**
- * TODO: Lägg till JSDoc för setup- och draw-funktioner i denna huvudskiss.
- */
-
 let game: Game;
 
 let images: {
@@ -22,15 +18,11 @@ let music: {
 };
 
 let sounds: {
-  gainheart: p5.SoundFile;
   lostheart: p5.SoundFile;
-  gameover: p5.SoundFile;
-  ghost: p5.SoundFile;
   starPickUp: p5.SoundFile;
   winner: p5.SoundFile;
   blockCollision: p5.SoundFile;
   wallCollision: p5.SoundFile;
-  goalline: p5.SoundFile;
 };
 
 let customFont: p5.Font;
@@ -50,15 +42,11 @@ function preload() {
   };
 
   sounds = {
-    gainheart: loadSound("/assets/sounds/gain-heart.mp3"),
     lostheart: loadSound("/assets/sounds/lost-heart.mp3"),
-    gameover: loadSound("/assets/sounds/game-over.mp3"),
-    ghost: loadSound("/assets/sounds/ghost.mp3"),
     starPickUp: loadSound("/assets/sounds/star.mp3"),
     winner: loadSound("/assets/sounds/winner.mp3"),
     blockCollision: loadSound("/assets/sounds/error.mp3"),
     wallCollision: loadSound("/assets/sounds/shutdown-sound.mp3"),
-    goalline: loadSound("/assets/sounds/goal-line.mp3"),
   };
 
   images = {
